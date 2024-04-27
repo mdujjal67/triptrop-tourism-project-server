@@ -28,8 +28,27 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const spotCollection = client.db('tourismDB').collection('/addSpots');
+    const spotCollection = client.db('tourismDB').collection('addSpots');
+    const contactCollection = client.db('tourismDB').collection('contactedUser');
 
+      // contact data receive from client side visitor
+      app.post('/contactedUser', async(req, res) => {
+        const contactedUser = req.body
+        console.log(contactedUser)
+        const result = await contactCollection.insertOne(contactedUser)
+        res.send(result)
+  
+      })
+
+    // read data
+    app.get('/addSpots', async(req, res) => {
+      const cursor = spotCollection.find()
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
+
+  // data receive from client side
     app.post('/addSpots', async(req, res) => {
       const newAddedSpot = req.body
       console.log(newAddedSpot)
