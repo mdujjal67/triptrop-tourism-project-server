@@ -30,6 +30,7 @@ async function run() {
 
     const spotCollection = client.db('tourismDB').collection('addSpots');
     const contactCollection = client.db('tourismDB').collection('contactedUser');
+    const countriesSection = client.db('tourismDB').collection('countries');
 
       // contact data receive from client side visitor
       app.post('/contactedUser', async(req, res) => {
@@ -39,6 +40,12 @@ async function run() {
         res.send(result)
   
       })
+
+      app.get('/countries', async(req, res) => {
+        const cursor = countriesSection.find(); // Marked: Use countries collection
+        const result = await cursor.toArray();
+        res.send(result);
+      });
 
     // read data
     app.get('/addSpots', async(req, res) => {
