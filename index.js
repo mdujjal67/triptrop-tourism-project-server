@@ -40,6 +40,13 @@ async function run() {
   
       })
 
+          // method for delete data
+    app.delete('/myList/:id',async(req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await spotCollection.deleteOne(query)
+      res.send(result)
+  })
 
       // for myList data
       app.get("/myList/:email", async (req, res) => {
