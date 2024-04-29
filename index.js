@@ -26,7 +26,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const spotCollection = client.db('tourismDB').collection('addSpots');
     const contactCollection = client.db('tourismDB').collection('contactedUser');
@@ -39,6 +39,14 @@ async function run() {
         const result = await contactCollection.insertOne(contactedUser)
         res.send(result)
   
+      })
+
+
+      // for myList data
+      app.get("/myList/:email", async (req, res) => {
+        console.log(req.params.email);
+        const result = await spotCollection.find({email: req.params.email}).toArray();
+        res.send(result);
       })
 
       app.get('/countries', async(req, res) => {
